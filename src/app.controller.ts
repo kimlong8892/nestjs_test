@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import {Controller, Get, HttpStatus, Param, Query, Res} from '@nestjs/common';
+import { Response } from 'express';
 import { AppService } from './app.service';
 
 @Controller()
@@ -10,8 +11,19 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('abc')
-  getTest(): string {
-    return "123455";
+  @Get('abc/:id/:slug')
+  getTest(
+      @Param('id') id: bigint,
+      @Param('slug') slug: string,
+      @Query() query: object,
+      @Res() res: Response
+  ) {
+      res.status(HttpStatus.OK).json({
+          id: id,
+          slug: slug,
+          name: 123,
+          description: 456,
+          query: query
+      });
   }
 }
