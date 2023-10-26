@@ -7,7 +7,5 @@ export class UserDto {
     last_name: string;
     @Transform(({ obj }) => obj.first_name + ' ' + obj.last_name)
     @Expose()
-    full_name;
-    @Expose()
     is_active: boolean;
 }

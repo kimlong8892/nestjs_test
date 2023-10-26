@@ -46,14 +46,35 @@ export class UserService {
         });
     }
 
-    async findTest(): Promise<UserDto[]> {
-        const findTest = await this.userRepository
-            .createQueryBuilder('users')
-            .where("users.is_active = :is_active", {is_active: 1})
-            .getMany();
+    async findTest(page: number = 1, per_page: number = 5) {
+        // for (let i = 1; i < 500; ++i) {
+        //     const userTest = new UserDto();
+        //     userTest.first_name = "Long " + i;
+        //     userTest.last_name = "Long " + i;
+        //     userTest.id = i;
+        //     userTest.full_name = "Test";
+        //     userTest.is_active = !Math.round(Math.random());
+        //     await this.save(userTest);
+        // }
 
-        return plainToInstance(UserDto, findTest, {
-            excludeExtraneousValues: true,
+        // let [listNoneActive, ListActive] = await Promise.all([
+        //     this.userRepository
+        //         .createQueryBuilder('users')
+        //         .where("users.is_active = :is_active", {is_active: 0})
+        //         .getMany(),
+        //     this.userRepository
+        //         .createQueryBuilder('users')
+        //         .where("users.is_active = :is_active", {is_active: 1})
+        //         .getMany()
+        // ]);
+
+
+
+        return this.userRepository.find({
+            skip: (page - 1) * per_page,
+            take: per_page
         });
+
+        //return listNoneActive.concat(ListActive);
     }
 }
